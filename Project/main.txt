@@ -1,0 +1,77 @@
+#----------------------------------------------------------
+#importing Neccessary libraries
+import pandas as pd
+import numpy as np
+#import matplotlib.pyplot as plt
+import os.path
+from os import path
+from datetime import date
+#----------------------------------------------------------
+#Important functions  
+def enter_record():
+    n='y'
+    a=0
+    while n=='y':
+        s=str(date.today())
+        k=int(input('enter cost '))
+        data=[s,k] 
+        df=pd.DataFrame({ "date" : data[0],"value":data[1]},index=[0])
+        if path.exists('Expense_Record.csv'):
+            df.to_csv('Expense_Record.csv',mode='a',header=False,index=False)
+        else:
+            df.to_csv('Expense_Record.csv',mode='a',header=['Date','Value'],index=False)
+        n=input('Want to add more Record? y/n')
+
+def display_record():
+    if path.exists('Expense_Record.csv'):
+        print(pd.read_csv('Expense_Record.csv').tail())
+    else:
+        print("There is no Record to Show")
+
+def summary():
+    if path.exists('Expense_Record.csv'):
+        d=pd.read_csv('Expense_Record.csv')
+        print('Maximum Expense : ',d['Value'].max())
+        print('Minimum Expense : ',d['Value'].min())
+        print('Average Expense : ',d['Value'].mean())
+def visualize_me():
+    ####to be done .......
+    print('Coming soon')
+def reset():
+    if path.exists('Expense_Record.csv'):
+        if input('YOU WILL LOSE ALL YOUR DATA STILL WANT TO CONTINUE? (y/n): ')=='y':
+            os.remove('Expense_Record.csv')
+    else:
+        print("Maybe you are using This for First time.. Don't Rush xD ")
+#----------------------------------------------------------
+#input controls <console>
+print('#############################################\n')
+print('--------WELCOME TO EXPENSE TRACKER-----------\n')
+print('#############################################\n')
+print('#############################################\n')
+print('Select Your Choice')
+print('1.Enter Record')
+print('2.Display Last Five records')
+print('3.Summary')
+print('4.Visualize')
+print('5.RESET')
+print('6.Exit')
+print('#############################################')
+n='y'
+while (n=='y' or n=='Y'):
+    choice=int(input("Enter Your Main Menu Choice: "))
+    if(choice==6):
+        exit(0)
+    elif(choice==1):
+        enter_record()
+    elif(choice==2):
+        display_record()
+    elif(choice==3):
+        summary()
+    elif(choice==4):
+        visualize_me()
+    elif(choice==5):
+        reset()
+    n=input('Want to continue to Main Menu?(y/n): ')
+exit(1)    
+#----------------------------------------------------------
